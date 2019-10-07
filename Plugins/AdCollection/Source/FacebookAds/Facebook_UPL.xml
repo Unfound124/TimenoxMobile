@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ EZ-Mobile-Ads - unreal engine 4 ads plugin
+ Copyright (C) 2017 feiwu <feixuwu@outlook.com> All Rights Reserved.
+-->
+<!--Facebook plugin additions-->
+<root xmlns:android="http://schemas.android.com/apk/res/android">
+	<!-- init section is always evaluated once per architecture -->
+	<init>
+		<log text="Facebook Android init"/>
+		
+		<!-- get packaging for Facebook from ini and reset it if architecture not supported -->
+		<setBoolFromProperty result="bEnabled" ini="Engine" section="/Script/AdCollectionEditor.FacebookSetting" property="bAndroidEnabled" default="false"/>
+		
+    <setStringFromProperty result="BannerAdUnit" ini="Engine" section="/Script/AdCollectionEditor.FacebookSetting" property="AndroidBannerUnit" default="0"/>
+    <setStringFromProperty result="InterstitialAdUnit" ini="Engine" section="/Script/AdCollectionEditor.FacebookSetting" property="AndroidInterstitialUnit" default="0"/>
+    <setStringFromProperty result="RewardedVideoAdUnit" ini="Engine" section="/Script/AdCollectionEditor.FacebookSetting" property="AndroidRewardedVideoAdUnit" default="0"/>
+		<dumpvars/>
+	</init>
+	
+	<!-- optional files or directories to copy to Intermediate/Android/APK -->
+	<resourceCopies>
+	</resourceCopies>
+	
+	<!-- Files to copy before the build so they can be used in the build -->
+	<prebuildCopies>
+		
+    
+	</prebuildCopies>
+
+  <!-- AAR dependencies -->
+  <AARImports>
+    
+        
+        <insertValue value="com.facebook.android,audience-network-sdk,4.99.1"/>
+        <insertNewline/>
+      
+  </AARImports>
+	
+
+	<!-- optional updates applied to AndroidManifest.xml -->
+	<androidManifestUpdates>
+		<if condition="bEnabled">
+			<true>
+
+        
+        <setElement result="BannerUnitMetadata" value="meta-data"/>
+        <addAttribute tag="$BannerUnitMetadata" name="android:name" value="com.epicgames.ue4.Facebook.BannerAdUnit"/>
+        <addAttribute tag="$BannerUnitMetadata" name="android:value" value="$S(BannerAdUnit)"/>
+        <addElement tag="application" name="BannerUnitMetadata"/>
+        
+        
+        <setElement result="InterstitialUnitMetadata" value="meta-data"/>
+        <addAttribute tag="$InterstitialUnitMetadata" name="android:name" value="com.epicgames.ue4.Facebook.InterstitialAdUnit"/>
+        <addAttribute tag="$InterstitialUnitMetadata" name="android:value" value="$S(InterstitialAdUnit)"/>
+        <addElement tag="application" name="InterstitialUnitMetadata"/>
+
+
+        <setElement result="RewardedVideoMetadata" value="meta-data"/>
+        <addAttribute tag="$RewardedVideoMetadata" name="android:name" value="com.epicgames.ue4.Facebook.RewardedVideoAdUnit"/>
+        <addAttribute tag="$RewardedVideoMetadata" name="android:value" value="$S(RewardedVideoAdUnit)"/>
+        <addElement tag="application" name="RewardedVideoMetadata"/>
+		
+		
+
+        <!-- Add permissions -->
+				<addPermission android:name="android.permission.INTERNET" />
+        <addPermission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+        <addPermission android:name="android.permission.ACCESS_NETWORK_STATE" />
+			</true>
+		</if>
+	</androidManifestUpdates>
+
+	<!-- optional additions to proguard -->
+	<proguardAdditions>
+		<if condition="bEnabled">
+			<true>
+			</true>
+		</if>
+	</proguardAdditions>
+
+
+	<!-- optional additions to the GameActivity imports in GameActivity.java -->
+	<gameActivityImportAdditions>
+		<if condition="bEnabled">
+			<true>
+				<insert>
+          // Facebook imports
+          import com.ads.util.Facebook;
+        </insert>
+			</true>
+		</if>
+	</gameActivityImportAdditions>
+
+	<!-- optional additions to the GameActivity class in GameActivity.java -->
+	<gameActivityClassAdditions>
+		<if condition="bEnabled">
+			<true>
+				<insert>
+          // Begin Facebook gameActivityClassAdditions
+          private Facebook facebookInstance;
+
+          public void AndroidThunkJava_Facebook_ShowBanner(boolean bShowOnBottomOfScreen)
+          {
+          if (facebookInstance != null)
+          {
+          facebookInstance.ShowBanner(bShowOnBottomOfScreen );
+          }
+          }
+
+          public void AndroidThunkJava_Facebook_PlayRewardedVideo()
+          {
+          if (facebookInstance != null)
+          {
+          facebookInstance.playRewardAds();
+          }
+          }
+
+          public void AndroidThunkJava_Facebook_ShowInterstitialAd()
+          {
+          if (facebookInstance != null)
+          {
+          facebookInstance.ShowInterstitialAd();
+          }
+          }
+
+          public void AndroidThunkJava_Facebook_HideBanner()
+          {
+          if (facebookInstance != null)
+          {
+          facebookInstance.HideAdBanner();
+          }
+          }
+          
+          public boolean AndroidThunkJava_Facebook_BannerReady()
+          {
+            if(facebookInstance != null)
+            {
+              return facebookInstance.IsBannerReady();
+            }
+            return false;
+          }
+          
+          public boolean AndroidThunkJava_Facebook_InterstitialReady()
+          {
+            if(facebookInstance != null)
+            {
+              return facebookInstance.IsInterstitialReady();
+            }
+            return false;
+          }
+          
+          public boolean AndroidThunkJava_Facebook_RewardedVideoReady()
+          {
+            if(facebookInstance != null)
+            {
+              return facebookInstance.IsRewardedVideoReady();
+            }
+            return false;
+          }
+
+          // End Facebook gameActivityClassAdditions
+        </insert>
+			</true>
+		</if>
+	</gameActivityClassAdditions>
+	
+	<!-- optional additions to GameActivity onCreate metadata reading in GameActivity.java -->
+	<gameActivityReadMetadataAdditions>
+		<if condition="bEnabled">
+			<true>
+				<insert>
+					// Facebook gameActivityReadMetadataAdditions
+				</insert>
+			</true>
+		</if>
+	</gameActivityReadMetadataAdditions>
+	
+	<!-- optional additions to GameActivity onCreate in GameActivity.java -->
+	<gameActivityOnCreateAdditions>
+		<if condition="bEnabled">
+			<true>
+				<insert>
+          // Begin Facebook onCreate
+          try
+          {
+          Log.debug("Facebook:Ready Create!");
+          facebookInstance = new Facebook(this, activityLayout, false);
+
+          
+          final String adBannerUnit = _bundle.getString("com.epicgames.ue4.Facebook.BannerAdUnit");
+          final String interstitialUnit = _bundle.getString("com.epicgames.ue4.Facebook.InterstitialAdUnit");
+          final String adRewardedUnit = _bundle.getString("com.epicgames.ue4.Facebook.RewardedVideoAdUnit");
+
+          facebookInstance.InitFacebook(adBannerUnit, interstitialUnit, adRewardedUnit);
+          Log.debug("Facebook:InitFinish:" + " " + adBannerUnit + " " + interstitialUnit + " " + adRewardedUnit);
+          }
+          catch (Exception e) {
+          e.printStackTrace();
+          }
+
+          // End Facebook onCreate
+        </insert>
+			</true>
+		</if>
+	</gameActivityOnCreateAdditions>
+
+	<!-- optional additions to GameActivity onDestroy in GameActivity.java-->
+	<gameActivityOnDestroyAdditions>
+		<if condition="bEnabled">
+			<true>
+				<insert>
+          // Begin Facebook onDestroy
+          if (facebookInstance != null)
+          {
+          facebookInstance.OnDestroy();
+          }
+          // End Facebook onDestroy
+        </insert>
+			</true>
+		</if>
+	</gameActivityOnDestroyAdditions>
+	
+	<!-- optional additions to GameActivity onStart in GameActivity.java -->
+	<gameActivityOnStartAdditions>
+		<if condition="bEnabled">
+			<true>
+				<insert>
+	// Begin Facebook onStart
+	// End Facebook onStart
+				</insert>
+			</true>
+		</if>
+	</gameActivityOnStartAdditions>
+
+	<!-- optional additions to GameActivity onStop in GameActivity.java -->
+	<gameActivityOnStopAdditions>
+		<if condition="bEnabled">
+			<true>
+				<insert>
+	// Begin Facebook onStop
+	// End Facebook onStop
+				</insert>
+			</true>
+		</if>
+	</gameActivityOnStopAdditions>
+
+	<!-- optional additions to GameActivity onPause in GameActivity.java -->
+	<gameActivityOnPauseAdditions>
+		<if condition="bEnabled">
+			<true>
+				<insert>
+          // Begin Facebook onPause
+          if (facebookInstance != null)
+          {
+          facebookInstance.OnPause();
+          }
+          // End Facebook onPause
+        </insert>
+			</true>
+		</if>
+	</gameActivityOnPauseAdditions>
+
+	<!-- optional additions to GameActivity onResume in GameActivity.java -->
+	<gameActivityOnResumeAdditions>
+		<if condition="bEnabled">
+			<true>
+				<insert>
+          // Begin Facebook onResume
+          if (facebookInstance != null)
+          {
+          facebookInstance.OnResume();
+          }
+          // End Facebook onResume
+        </insert>
+			</true>
+		</if>
+	</gameActivityOnResumeAdditions>
+
+	<!-- optional additions to GameActivity onActivityResult in GameActivity.java -->
+	<gameActivityOnActivityResultAdditions>
+		<if condition="bEnabled">
+			<true>
+				<insert>
+	// Begin Facebook onActivityResult
+	//if (facebookLogin != null)
+	//{
+	//	facebookLogin.getCallbackManager().onActivityResult(requestCode, resultCode, data);
+	//}
+	// End Facebook onActivityResult
+				</insert>
+			</true>
+		</if>
+	</gameActivityOnActivityResultAdditions>
+
+	<!-- optional libraries to load in GameActivity.java before libUE4.so -->
+	<soLoadLibrary>
+	</soLoadLibrary>
+</root>

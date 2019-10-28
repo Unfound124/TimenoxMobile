@@ -1,0 +1,50 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "0.8.7",
+	"FriendlyName": "Cloud Saved Game",
+	"Description": "Access to Mobile Cloud Service of Saved Games",
+	"Category": "Online Platform",
+	"CreatedBy": "Sibirianit",
+	"CreatedByURL": "",
+	"DocsURL": "https://goo.gl/1sXKVC",
+	"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/fe7df865a8b04273a6a576e77c82693e",
+	"SupportURL": "mailto:support@sibirianit.com",
+	"EngineVersion": "4.23.0",
+	"CanContainContent": false,
+	"Installed": true,
+	"RequiresBuildPlatform": true,
+	"Modules": [
+		{
+			"Name": "CloudSavedGameEditor",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "CloudSavedGameCore",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"WhitelistPlatforms": [
+				"Win64",
+				"Android",
+				"IOS"
+			]
+		},
+		{
+			"Name": "GooglePlaySavedGame",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"WhitelistPlatforms": [
+				"Android"
+			]
+		},
+		{
+			"Name": "ICloudSavedGame",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"WhitelistPlatforms": [
+				"IOS"
+			]
+		}
+	]
+}

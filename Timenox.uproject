@@ -24,6 +24,11 @@
 		{
 			"Name": "AdvancedSteamSessions",
 			"Enabled": false
+		},
+		{
+			"Name": "CloudSavedGame",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/fe7df865a8b04273a6a576e77c82693e"
 		}
 	],
 	"TargetPlatforms": [

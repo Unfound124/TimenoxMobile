@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Cloud Saved Game for Mobile
+    Created by Vladimir Ziablitskii
+    Copyright 2018-2019 Sibirianit All Rights Reserved.
+-->
+<root xmlns:android="http://schemas.android.com/apk/res/android">
+  <init>
+	<log text="GooglePlaySavedGame moduel initialization"/>
+  </init>
+
+  <gameActivityImportAdditions>
+	<insert>
+	  import android.net.ConnectivityManager;
+	  import android.net.NetworkInfo;
+	</insert>
+  </gameActivityImportAdditions>
+
+  <gameActivityClassAdditions>
+	<insert>
+	public boolean AndroidThunkJava_HasInternetConnection() 
+	{
+		ConnectivityManager connectivity = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (connectivity == null)
+      return false;
+      
+		NetworkInfo[] info = connectivity.getAllNetworkInfo();
+		if (info == null)
+      return false;
+      
+		for (int i = 0; i &lt; info.length; i++)
+		{
+			if (info[i].getState() == NetworkInfo.State.CONNECTED)
+			  return true;
+		}
+    
+    return false;
+	}
+	</insert>
+  </gameActivityClassAdditions>
+</root>

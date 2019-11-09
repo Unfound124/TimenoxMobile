@@ -1,0 +1,54 @@
+{
+	"FileVersion": 3,
+	"Version": 12,
+	"VersionName": "1.2.1",
+	"FriendlyName": "Prefabricator",
+	"Description": "Create Prefabs in Unreal Engine",
+	"Category": "Prefab",
+	"CreatedBy": "Code Respawn",
+	"CreatedByURL": "http://prefabricator.io",
+	"DocsURL": "http://docs.prefabricator.io",
+	"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/39ccbbf668e84847890992df9922e355",
+	"SupportURL": "",
+	"EngineVersion": "4.23.0",
+	"CanContainContent": true,
+	"Installed": true,
+	"Modules": [
+		{
+			"Name": "PrefabricatorRuntime",
+			"Type": "Runtime",
+			"LoadingPhase": "PreDefault",
+			"WhitelistPlatforms": [
+				"Win32",
+				"Win64",
+				"Mac",
+				"Android",
+				"IOS"
+			]
+		},
+		{
+			"Name": "PrefabricatorEditor",
+			"Type": "Editor",
+			"LoadingPhase": "Default",
+			"WhitelistPlatforms": [
+				"Win32",
+				"Win64",
+				"Mac",
+				"Android",
+				"IOS"
+			]
+		},
+		{
+			"Name": "PrefabricatorEditorPostInit",
+			"Type": "Editor",
+			"LoadingPhase": "PostEngineInit",
+			"WhitelistPlatforms": [
+				"Win32",
+				"Win64",
+				"Mac",
+				"Android",
+				"IOS"
+			]
+		}
+	]
+}

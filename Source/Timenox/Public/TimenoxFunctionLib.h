@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+// #include "OnlineSubsystemFacebook.h" //Facebook Online Subsystem
+// #include "Online.h" // Online Subsystem
 #include "TimenoxFunctionLib.generated.h"
 
 /**
@@ -16,4 +18,6 @@ class TIMENOX_API UTimenoxFunctionLib : public UBlueprintFunctionLibrary
 public:
 	UFUNCTION(BlueprintPure)
 		static bool isEmailValid(const FString& email);
+	UFUNCTION(BlueprintCallable, category = "Facebook")
+		FString FacebookLogin(FString Username, FString Password);
 };

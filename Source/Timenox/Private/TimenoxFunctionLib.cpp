@@ -10,3 +10,7 @@ bool UTimenoxFunctionLib::isEmailValid(const FString& email) {
 
 	return std::regex_match(TCHAR_TO_UTF8(*email), pattern);
 }
+FString UTimenoxFunctionLib::FacebookLogin(FString UserName, FString Password)
+{
+	return FString(TEXT(" "));
+}

@@ -25,5 +25,12 @@ public class Timenox : ModuleRules
 			DynamicallyLoadedModuleNames.Add("AndroidAdvertising");
 			DynamicallyLoadedModuleNames.Add("OnlineSubsystemGooglePlay");
 		}
+		if (Target.Platform == UnrealTargetPlatform.IOS){
+
+		}
+		// Facebook API
+		// PublicDependencyModuleNames.AddRange(new string[] { "Facebook" });
+		//Facebook Subsystem
+        // PrivateDependencyModuleNames.Add("OnlineSubsystemFacebook");
 	}
 }
